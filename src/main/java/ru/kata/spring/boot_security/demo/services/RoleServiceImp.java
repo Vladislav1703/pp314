@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class RoleServiceImp implements RoleService{
-    @PersistenceContext
+//    @PersistenceContext
     private RoleRepository roleRepository;
 
     public RoleServiceImp() {

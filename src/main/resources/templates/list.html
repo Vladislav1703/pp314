@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>List page</title>
 </head>
 <body>
 <div>
@@ -20,6 +20,20 @@
             <td th:utext="${user.getAge()}">...</td>
             <td><a th:href="@{edit/{userId}(userId=${user.id})}">Edit user</a></td>
             <td><a th:href="@{delete/{userId}(userId=${user.id})}">Delete user</a></td>
+        </tr>
+    </table>
+
+    <div>
+        Roles
+    </div>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+        <tr th:each ="role : ${roles}">
+            <td th:utext="${role.getId()}">...</td>
+            <td th:utext="${role.getName()}">...</td>
         </tr>
     </table>
     <div>

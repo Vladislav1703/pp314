@@ -1,7 +1,6 @@
 package ru.kata.spring.boot_security.demo.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,65 +10,63 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.Collections;
 import java.util.List;
 
 @Service
 public class UserServiceImp implements UserDetailsService, UserService {
-    @PersistenceContext
-    private EntityManager em;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
 
-    public UserServiceImp () {
+    private final UserRepository userRepository;
+    private final RoleService roleService;
 
-    }
-
-    public UserServiceImp(@Qualifier("UserRepository") UserRepository userRepository,@Qualifier("RoleRepository") RoleRepository roleRepository) {
+    @Autowired
+    public UserServiceImp(UserRepository userRepository, RoleService roleService) {
+        this.roleService = roleService;
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return user;
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username);
     }
 
     @Override
-    public void addUser(User user) {
-        User userFromDB = userRepository.findByEmail(user.getUsername());
-        if (userFromDB == null) {
-            user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
-            userRepository.save(user);
-        }
+    public List<User> allUsers() {
+        return userRepository.findAll();
     }
 
     @Override
-    public void updateUser(User user) {
-        User userFromDB = userRepository.findByEmail(user.getUsername());
-        if (userFromDB != null) {
-            userRepository.save(user);
-        }
-    }
-
-    @Override
-    public User getUser(Long id) {
+    public User showUser(Long id) {
         return userRepository.getById(id);
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void createUser(User user) {
+        User userSave = userRepository.findByUsername(user.getUsername());
+        if (userSave == null) {
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void update(Long id, User updatedUser) {
+        User user = userRepository.findByUsername(updatedUser.getUsername());
+        if (user != null) {
+            userRepository.save(updatedUser);
+        }
+    }
+
+    @Override
+    public void delete(Long id) {
         userRepository.deleteById(id);
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Role getRoleByName(String name) {
+        return roleService.getRoleByName(name);
     }
 }

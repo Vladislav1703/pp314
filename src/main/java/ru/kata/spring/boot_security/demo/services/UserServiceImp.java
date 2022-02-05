@@ -69,4 +69,8 @@ public class UserServiceImp implements UserDetailsService, UserService {
     public Role getRoleByName(String name) {
         return roleService.getRoleByName(name);
     }
+
+    public User findUserById (Long id) {
+        return userRepository.findUserById(id);
+    }
 }

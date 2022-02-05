@@ -10,12 +10,12 @@ import ru.kata.spring.boot_security.demo.models.User;
 
 @Service
 @Transactional
-public class UserDetailServiceImp implements UserDetailsService {
+public class UserDetailsServiceImp implements UserDetailsService {
 
-    private final UserServiceImp userServiceImp;
+    private UserServiceImp userServiceImp;
 
     @Autowired
-    public UserDetailServiceImp(UserServiceImp userServiceImp) {
+    public void setUserServiceImp(UserServiceImp userServiceImp) {
         this.userServiceImp = userServiceImp;
     }
 

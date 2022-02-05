@@ -11,19 +11,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import ru.kata.spring.boot_security.demo.repositories.UserRepository;
-import ru.kata.spring.boot_security.demo.services.RoleService;
-import ru.kata.spring.boot_security.demo.services.UserDetailServiceImp;
-import ru.kata.spring.boot_security.demo.services.UserServiceImp;
+import ru.kata.spring.boot_security.demo.services.UserDetailsServiceImp;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
-    public UserDetailsService userDetailsService(UserServiceImp userServiceImp) {
-        return new UserDetailServiceImp(userServiceImp);
+    public UserDetailsService userDetailsService() {
+        return new UserDetailsServiceImp();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -36,36 +32,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setUserDetailsService(userDetailsService()); // Поиск по ключу и значению в базе пользователя
         return authenticationProvider;
     }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.formLogin()
-//                .loginPage("/login")
-//                .successHandler(new SuccessUserHandler())
-//                .loginProcessingUrl("/login")
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .permitAll();
         http.formLogin()
                 .successHandler(new SuccessUserHandler())
                 .loginProcessingUrl("/login")
                 .permitAll();
 
         http.logout()
+                // разрешаем делать логаут всем
                 .permitAll()
+                // указываем URL логаута
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout")
+                // указываем URL при удачном логауте
+                .logoutSuccessUrl("/login")
+                //выклчаем кроссдоменную секьюрность (на этапе обучения неважна)
                 .and().csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/login", "/list", "/create").anonymous()
+                //страницы аутентификаци доступна всем
+                .antMatchers("/login").anonymous()
                 .antMatchers("/user/**").access("hasAnyRole('USER', 'ADMIN')")
-                .antMatchers("/users/**", "/admin/users/**").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
+                .antMatchers("/list/**","/admin/list/**").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
+
     }
 }

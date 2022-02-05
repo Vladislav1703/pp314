@@ -10,7 +10,7 @@
 </head>
 <body>
 <div>
-    <form role="form"  id="userprofile-form" th:action="@{/create}" th:method="POST" th:object="${userForm}">
+    <form role="form"  id="userprofile-form" th:action="@{/admin/create}" th:method="POST" th:object="${userForm}">
         <h2>Регистрация</h2>
         <input type="hidden" name="id" th:value="*{id}">
         <label>Name</label>

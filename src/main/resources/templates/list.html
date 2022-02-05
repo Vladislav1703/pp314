@@ -43,6 +43,9 @@
     <div>
         <a th:href="@{/admin/create}">Add new user</a>
     </div>
+    <form th:method="GET" th:action="@{/logout}">
+        <input type="submit" value="Logout">
+    </form>
 </div>
 </body>
 </html>

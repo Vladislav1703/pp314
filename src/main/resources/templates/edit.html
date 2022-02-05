@@ -29,7 +29,9 @@
 
         <button type="submit">Изменить</button>
     </form>
-    <a href="/">Главная</a>
+    <form th:method="GET" th:action="@{/logout}">
+        <input type="submit" value="Logout">
+    </form>
 </div>
 </body>
 </html>

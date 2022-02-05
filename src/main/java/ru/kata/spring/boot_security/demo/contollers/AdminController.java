@@ -33,7 +33,7 @@ public class AdminController {
 
     @GetMapping("/edit/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
-//        model.addAttribute("user", userService.findUserById(id));
+        model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("roles", roleService.getAllRoles());
         return "edit";
     }
@@ -43,7 +43,7 @@ public class AdminController {
         user.setRoles(roles);
         userService.update(id, user);
 //        return "redirect:/admin/users";
-        return "edit";
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/create")

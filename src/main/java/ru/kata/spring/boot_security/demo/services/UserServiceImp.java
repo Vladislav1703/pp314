@@ -26,7 +26,7 @@ public class UserServiceImp implements UserDetailsService, UserService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByName(username);
         if (user == null) {
             throw new UsernameNotFoundException("Could not find user");
         }
@@ -45,7 +45,7 @@ public class UserServiceImp implements UserDetailsService, UserService {
 
     @Override
     public void createUser(User user) {
-        User userSave = userRepository.findByUsername(user.getUsername());
+        User userSave = userRepository.findByName(user.getUsername());
         if (userSave == null) {
             userRepository.save(user);
         }
@@ -53,7 +53,7 @@ public class UserServiceImp implements UserDetailsService, UserService {
 
     @Override
     public void update(Long id, User updatedUser) {
-        User user = userRepository.findByUsername(updatedUser.getUsername());
+        User user = userRepository.findByName(updatedUser.getUsername());
         if (user != null) {
             userRepository.save(updatedUser);
         }
@@ -66,7 +66,7 @@ public class UserServiceImp implements UserDetailsService, UserService {
 
     @Override
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByName(username);
     }
 
     @Override
@@ -75,6 +75,6 @@ public class UserServiceImp implements UserDetailsService, UserService {
     }
 
     public User findUserById (Long id) {
-        return userRepository.findUserById(id);
+        return userRepository.getById(id);
     }
 }

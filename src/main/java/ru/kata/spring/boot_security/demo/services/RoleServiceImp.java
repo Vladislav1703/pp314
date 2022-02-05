@@ -29,6 +29,6 @@ public class RoleServiceImp implements RoleService{
 
     @Override
     public Role getRoleByName(String name) {
-        return roleRepository.getRoleByName(name);
+        return roleRepository.findByName(name);
     }
 }

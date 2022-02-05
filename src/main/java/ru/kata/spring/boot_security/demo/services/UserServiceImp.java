@@ -39,9 +39,10 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void createUser(User user) {
-        User userSave = userRepository.findUserByEmail(user.getEmail());
+        User userSave = userRepository.findUserByEmail(user.getUsername());
         if (userSave == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            System.out.println("createUser" + user);
             userRepository.save(user);
         }
     }

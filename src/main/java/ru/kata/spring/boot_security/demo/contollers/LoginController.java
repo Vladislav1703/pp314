@@ -48,6 +48,7 @@ public class LoginController {
     public String create(@ModelAttribute("user") User user,
                          @RequestParam("role") String[] role) {
         Set<Role> roleSet = new HashSet<>();
+        System.out.println(user);
         for (String roles : role) {
             roleSet.add(userService.getRoleByName(roles));
         }

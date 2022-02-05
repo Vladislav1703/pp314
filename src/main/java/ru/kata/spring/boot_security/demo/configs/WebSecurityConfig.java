@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import ru.kata.spring.boot_security.demo.services.RoleService;
+import ru.kata.spring.boot_security.demo.services.UserDetailServiceImp;
 import ru.kata.spring.boot_security.demo.services.UserServiceImp;
 
 @Configuration
@@ -25,8 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository, RoleService roleService) {
-        return new UserServiceImp(userRepository, roleService);
+    public UserDetailsService userDetailsService(UserServiceImp userServiceImp) {
+        return new UserDetailServiceImp(userServiceImp);
     }
 
     @Bean
@@ -65,7 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/login", "/list").anonymous()
+                .antMatchers("/login", "/list", "/create").anonymous()
                 .antMatchers("/user/**").access("hasAnyRole('USER', 'ADMIN')")
                 .antMatchers("/users/**", "/admin/users/**").access("hasAnyRole('ADMIN')").anyRequest().authenticated();
     }

@@ -43,9 +43,10 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @PostMapping()
+    @PostMapping("/create")
     public String create(@ModelAttribute("user") User user,
                          @RequestParam("role") String[] role) {
+        System.out.println(role);
         Set<Role> roleSet = new HashSet<>();
         for (String roles : role) {
             roleSet.add(userService.getRoleByName(roles));
@@ -56,11 +57,11 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-    @PostMapping("/create")
-    public String addUser(@ModelAttribute("user") User user, @ModelAttribute("role") Set<Role> roles) {
-        userService.createUser(user);
-        return "redirect:/admin/users";
-    }
+//    @PostMapping("/create")
+//    public String addUser(@ModelAttribute("user") User user, @ModelAttribute("role") Set<Role> roles) {
+//        userService.createUser(user);
+//        return "redirect:/admin/users";
+//    }
 
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {

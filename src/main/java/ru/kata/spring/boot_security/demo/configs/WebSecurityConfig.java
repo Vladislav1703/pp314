@@ -19,12 +19,6 @@ import ru.kata.spring.boot_security.demo.services.UserServiceImp;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final SuccessUserHandler successUserHandler;
-
-    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
-        this.successUserHandler = successUserHandler;
-    }
-
     @Bean
     public UserDetailsService userDetailsService(UserServiceImp userServiceImp) {
         return new UserDetailServiceImp(userServiceImp);
@@ -38,8 +32,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());
-        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder()); // Преобразование паролей в bcrypt
+        authenticationProvider.setUserDetailsService(userDetailsService()); // Поиск по ключу и значению в базе пользователя
         return authenticationProvider;
     }
 
@@ -51,12 +45,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http.formLogin()
+//                .loginPage("/login")
+//                .successHandler(new SuccessUserHandler())
+//                .loginProcessingUrl("/login")
+//                .usernameParameter("username")
+//                .passwordParameter("password")
+//                .permitAll();
         http.formLogin()
-                .loginPage("/login")
-                .successHandler(successUserHandler)
+                .successHandler(new SuccessUserHandler())
                 .loginProcessingUrl("/login")
-                .usernameParameter("username")
-                .passwordParameter("password")
                 .permitAll();
 
         http.logout()

@@ -1,18 +1,13 @@
 <!DOCTYPE html>
-<html
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:th="https://www.thymeleaf.org"
-        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
->
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="utf-8">
     <title>Регистрация</title>
 </head>
 <body>
 <div>
-    <form role="form"  id="userprofile-form" th:action="@{admin/edit/${user.id}}" th:method="POST" th:object="${user}">
+    <form th:method="POST" th:action="@{/admin/edit/{id}(id=${user.id})}" th:object="${user}">
         <h2>Регистрация</h2>
-        <input type="hidden" name="id" th:value="*{id}">
         <label>Name</label>
         <input type="text" name="name" th:value="*{name}">
         <label>Last Name</label>

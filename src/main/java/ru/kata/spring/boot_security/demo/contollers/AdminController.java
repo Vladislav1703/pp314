@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.contollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -32,17 +33,21 @@ public class AdminController {
     }
 
     @GetMapping("/edit/{id}")
-    public String editPage(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findUserById(id));
+    public String editUser(@PathVariable("id") long id, Model model) {
         model.addAttribute("roles", roleService.getAllRoles());
+        model.addAttribute("user", userService.findUserById(id));
         return "edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String editUser(@PathVariable("id") Long id, @ModelAttribute("user") User user, @ModelAttribute("role") Set<Role> roles) {
-        user.setRoles(roles);
-        userService.update(id, user);
-//        return "redirect:/admin/users";
+    public String updateUser(@ModelAttribute("user") User user,
+                             @RequestParam("role") String[] role) {
+        Set<Role> roleSet = new HashSet<>();
+        for (String roles : role) {
+            roleSet.add(userService.getRoleByName(roles));
+        }
+        user.setRoles(roleSet);
+        userService.update(user.getId(), user);
         return "redirect:/admin/users";
     }
 

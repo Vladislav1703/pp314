@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:th="https://www.thymeleaf.org"
+        xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+>
+<head>
+    <meta charset="utf-8">
+    <title>Регистрация</title>
+</head>
+<body>
+<div>
+    <form role="form"  id="userprofile-form" th:action="@{/admin/users}" th:method="POST" th:object="${userForm}">
+        <h2>Регистрация</h2>
+        <input type="hidden" name="id" th:value="*{id}">
+        <label>Name</label>
+        <input type="text" name="name" th:value="*{name}">
+        <label>Last Name</label>
+        <input type="text" name="lastName" th:value="*{lastName}">
+        <label>Age</label>
+        <input type="number" name="age" th:value="*{age}">
+        <label>Email</label>
+        <input type="text" name="email" th:value="*{email}">
+        <label>Password</label>
+        <input type="text" name="password" th:value="*{password}">
+
+        <div>
+            <label for="rolesSelect">Chose Role</label>
+            <select multiple size="3" id="rolesSelect" name="role" >
+                <option th:each ="role : ${roles}" th:value="${role.getName()}" th:text="${role.getName()}"></option>
+            </select>
+        </div>
+
+        <button type="submit">Зарегистрировать</button>
+    </form>
+    <a href="/">Главная</a>
+</div>
+</body>
+</html>

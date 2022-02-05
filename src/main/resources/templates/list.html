@@ -13,7 +13,6 @@
             <th>Last name</th>
             <th>Name</th>
             <th>email</th>
-            <th>password</th>
             <th>Edit</th>
         </tr>
         <tr th:each ="user : ${users}">
@@ -21,13 +20,12 @@
             <td th:utext="${user.getLastName()}">...</td>
             <td th:utext="${user.getAge()}">...</td>
             <td th:utext="${user.getEmail()}">...</td>
-            <td th:utext="${user.getPassword()}">...</td>
             <td><a th:href="@{edit/{userId}(userId=${user.id})}">Edit user</a></td>
             <td><a th:href="@{delete/{userId}(userId=${user.id})}">Delete user</a></td>
         </tr>
     </table>
 
-    <div>
+    <div style="margin-top: 10px;margin-bottom: 10px;">
         Roles
     </div>
     <table border="1">
@@ -40,10 +38,10 @@
             <td th:utext="${role.getId()}">...</td>
         </tr>
     </table>
-    <div>
-        <a th:href="@{/admin/create}">Add new user</a>
-    </div>
-    <form th:method="GET" th:action="@{/logout}">
+    <form th:method="GET" th:action="@{/admin/create}" style="margin-top: 10px;margin-bottom: 10px;">
+        <input type="submit" value="Add new user">
+    </form>
+    <form th:method="GET" th:action="@{/logout}" style="margin-top: 10px;margin-bottom: 10px;">
         <input type="submit" value="Logout">
     </form>
 </div>

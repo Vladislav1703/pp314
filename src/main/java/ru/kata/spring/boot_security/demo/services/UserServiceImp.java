@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
@@ -17,11 +18,13 @@ public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImp(UserRepository userRepository, RoleService roleService) {
+    public UserServiceImp(UserRepository userRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.roleService = roleService;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,15 +39,16 @@ public class UserServiceImp implements UserService {
 
     @Override
     public void createUser(User user) {
-        User userSave = userRepository.findByName(user.getUsername());
+        User userSave = userRepository.findUserByEmail(user.getEmail());
         if (userSave == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
         }
     }
 
     @Override
     public void update(Long id, User updatedUser) {
-        User user = userRepository.findByName(updatedUser.getUsername());
+        User user = userRepository.findUserByEmail(updatedUser.getEmail());
         if (user != null) {
             userRepository.save(updatedUser);
         }
@@ -56,8 +60,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByName(username);
+    public User findByUsername(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
     @Override

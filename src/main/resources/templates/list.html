@@ -32,16 +32,16 @@
     </div>
     <table border="1">
         <tr>
-            <th>ID</th>
             <th>Name</th>
+            <th>ID</th>
         </tr>
         <tr th:each ="role : ${roles}">
-            <td th:utext="${role.getId()}">...</td>
             <td th:utext="${role.getName()}">...</td>
+            <td th:utext="${role.getId()}">...</td>
         </tr>
     </table>
     <div>
-        <a href="/create">Add new user</a>
+        <a th:href="@{/admin/create}">Add new user</a>
     </div>
 </div>
 </body>

@@ -26,12 +26,14 @@ public class AdminController {
     public String allUsers(ModelMap map) {
         List<User> userList = userService.allUsers();
         map.addAttribute("users", userList);
+        List<Role> roleSet = roleService.getAllRoles();
+        map.addAttribute("roles", roleSet);
         return "list";
     }
 
     @GetMapping("/edit/{id}")
     public String editPage(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findUserById(id));
+//        model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("roles", roleService.getAllRoles());
         return "edit";
     }
@@ -40,7 +42,8 @@ public class AdminController {
     public String editUser(@PathVariable("id") Long id, @ModelAttribute("user") User user, @ModelAttribute("role") Set<Role> roles) {
         user.setRoles(roles);
         userService.update(id, user);
-        return "redirect:/admin/users";
+//        return "redirect:/admin/users";
+        return "edit";
     }
 
     @PostMapping("/create")
@@ -57,14 +60,17 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-//    @PostMapping("/create")
-//    public String addUser(@ModelAttribute("user") User user, @ModelAttribute("role") Set<Role> roles) {
-//        userService.createUser(user);
-//        return "redirect:/admin/users";
-//    }
+    @GetMapping("/create")
+    public String createPage(Model map) {
+        List<Role> roleSet = roleService.getAllRoles();
+        map.addAttribute("roles", roleSet);
+        map.addAttribute("userForm", new User());
+        return "/registration";
+    }
 
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
+        System.out.println("id" + id);
         userService.delete(id);
         return "redirect:/admin/users";
     }

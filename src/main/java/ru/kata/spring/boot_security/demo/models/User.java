@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -36,6 +37,14 @@ public class User implements UserDetails {
 
     public Set<Role> getRoles() {
         return roles;
+    }
+
+    public String getStringRoles() {
+        return roles.toString().replaceAll("\\[", "").replaceAll("\\]","");
+    }
+
+    public boolean userIsAdmin () {
+        return roles.stream().anyMatch(x -> Objects.equals(x.getName(), "ROLE_ADMIN"));
     }
 
     public void setRoles(Set<Role> roles) {

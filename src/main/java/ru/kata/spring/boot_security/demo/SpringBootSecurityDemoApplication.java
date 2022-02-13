@@ -37,10 +37,11 @@ public class SpringBootSecurityDemoApplication {
 			userAdmin.setPassword("admin");
 			userAdmin.setEmail("admin");
 			userAdmin.setAge(27);
-			userAdmin.setName("kertka");
+			userAdmin.setName("kurtka");
 			userAdmin.setLastName("bein");
 			Set<Role> roleSetAdmin = new HashSet<>();
 			roleSetAdmin.add(admin);
+			roleSetAdmin.add(user);
 			userAdmin.setRoles(roleSetAdmin);
 
 			User userUser = new User();

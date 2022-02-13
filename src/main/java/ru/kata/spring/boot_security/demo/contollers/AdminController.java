@@ -71,6 +71,8 @@ public class AdminController {
     @GetMapping("/create")
     public String createPage(Model map) {
         List<Role> roleSet = roleService.getAllRoles();
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        map.addAttribute("user", user);
         map.addAttribute("roles", roleSet);
         map.addAttribute("userForm", new User());
         return "/registration";

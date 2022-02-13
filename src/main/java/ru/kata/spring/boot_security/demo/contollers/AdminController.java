@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.contollers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,8 @@ public class AdminController {
     public String allUsers(ModelMap map) {
         List<User> userList = userService.allUsers();
         map.addAttribute("users", userList);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        map.addAttribute("user", user);
         List<Role> roleSet = roleService.getAllRoles();
         map.addAttribute("roles", roleSet);
         return "list";

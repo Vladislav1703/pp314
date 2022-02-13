@@ -42,6 +42,7 @@ public class UserServiceImp implements UserService {
         User userSave = userRepository.findUserByEmail(user.getUsername());
         if (userSave == null) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.flush();
             userRepository.save(user);
         }
     }

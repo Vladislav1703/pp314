@@ -35,6 +35,7 @@ public class RoleServiceImp implements RoleService{
     public void createRole (Role role) {
         Role candidateRole = roleRepository.findByName(role.getName());
         if (candidateRole == null) {
+            roleRepository.flush();
             roleRepository.save(role);
         }
     }

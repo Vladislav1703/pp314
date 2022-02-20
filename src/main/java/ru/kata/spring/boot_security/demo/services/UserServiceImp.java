@@ -71,6 +71,6 @@ public class UserServiceImp implements UserService {
     }
 
     public User findUserById (Long id) {
-        return userRepository.getById(id);
+        return userRepository.findById(id).get();
     }
 }

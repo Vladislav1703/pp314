@@ -57,7 +57,6 @@ public class AdminController {
     @PostMapping("/create")
     public String create(@ModelAttribute("user") User user,
                          @RequestParam("role") String[] role) {
-        System.out.println(role);
         Set<Role> roleSet = new HashSet<>();
         for (String roles : role) {
             roleSet.add(userService.getRoleByName(roles));

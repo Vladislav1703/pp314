@@ -106,16 +106,20 @@
                                         <input type="password" class="form-control" id="edit-password" name="password"
                                                value="">
 
-                                        <label><b>Role</b>
-                                            <div th:each="role : ${roles}">
-                                                <input type="checkbox" name="nameRoles"
-                                                       th:value="${role.name}"
-                                                       th:text="${role.name}"
-                                                       th:checked="${role.name} == ROLE_USER"
-                                                       th:class="edit-role"
-                                                />
-                                            </div>
+                                        <label class="col-form-label" for="new-roles">
+                                            Role
                                         </label>
+                                        <div>
+                                            <select class="form-select" id="new-roles" size="3" aria-label="size 3 select example">
+                                                <option
+                                                        th:each ="role : ${roles}"
+                                                        th:value="${role.getName()}"
+                                                        th:text="${role.getName()}"
+                                                        th:selected="${role.name} == ROLE_USER"
+                                                        th:class="edit-role"
+                                                ></option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
@@ -185,14 +189,18 @@
                                    th:type="text"
                                    class="form-control">
                             <br>
-                            <div th:each="role : ${roles}">
-                                <input type="checkbox" name="nameRoles"
-                                       th:value="${role.name}"
-                                       th:text="${role.name}"
-                                       th:checked="${role.name} == ROLE_USER"
-                                       th:class="new-role"
-                                />
-                            </div>
+                            <label for="new-role">
+                                <b>Role</b>
+                            </label>
+                            <select class="form-select" id="new-role" size="3" aria-label="size 3 select example">
+                                <option
+                                        th:each ="role : ${roles}"
+                                        th:value="${role.getName()}"
+                                        th:text="${role.getName()}"
+                                        th:selected="${role.name} == ROLE_USER"
+                                        th:class="edit-role"
+                                ></option>
+                            </select>
                             <br>
                             <br>
 

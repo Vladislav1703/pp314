@@ -71,12 +71,11 @@ async function updateUserForm(id) {
         userForm.age = $('#edit-age').val();
         userForm.email = $('#edit-email').val();
         userForm.password = $('#edit-password').val();
-        const checked = []
-        $('.edit-role:checked').each(function() {
-            checked.push($(this).val());
+        const selected = []
+        $('.edit-role:selected').each(function() {
+            selected.push($(this).val());
         });
-        userForm.roles = checked;
-        console.log('userForm.roles', userForm.roles)
+        userForm.roles = selected;
         updateUser();
     }
 }
@@ -121,10 +120,10 @@ newbtn.onclick = function () {
     userFormNew.age = $('#new-age').val();
     userFormNew.email = $('#new-email').val();
     userFormNew.password = $('#new-password').val();
-    const checked = []
-    $('.new-role:checked').each(function() {
-        checked.push($(this).val());
+    const selected = []
+    $('.new-role:selected').each(function() {
+        selected.push($(this).val());
     });
-    userFormNew.roles = checked;
+    userFormNew.roles = selected;
     newUser().then(allUsers);
 }

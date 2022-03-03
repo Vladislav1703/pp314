@@ -110,7 +110,7 @@
                                             Role
                                         </label>
                                         <div>
-                                            <select class="form-select" id="new-roles" size="3" aria-label="size 3 select example">
+                                            <select class="form-select" id="new-roles" multiple size="3" aria-label="size 3 select example">
                                                 <option
                                                         th:each ="role : ${roles}"
                                                         th:value="${role.getName()}"
@@ -192,7 +192,7 @@
                             <label for="new-role">
                                 <b>Role</b>
                             </label>
-                            <select class="form-select" id="new-role" size="3" aria-label="size 3 select example">
+                            <select class="form-select" id="new-role" size="3" multiple aria-label="size 3 select example">
                                 <option
                                         th:each ="role : ${roles}"
                                         th:value="${role.getName()}"
